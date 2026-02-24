@@ -75,9 +75,6 @@ button{
   margin-top:6px;
   border-radius:6px;
 }
-
-
-}
 .order{
   display:grid;
   grid-template-columns: 1.2fr 2fr 1.2fr 0.8fr;
@@ -145,13 +142,10 @@ body{
     <button onclick="showSection('sales')">Total Sales</button>
     <button onclick="showSection('reviews')">Reviews</button>
     
-</div>
-  </div>
-  <div class="section" id="reviews">
-  <h3>⭐ Customer Reviews</h3>
-  <div id="reviewsList"></div>
-</div>
 
+  </div>
+</div>
+  
   <!-- MANAGE FOOD -->
   <div class="section" id="manage">
     <h3>🍕 Manage Food</h3>
@@ -190,6 +184,11 @@ body{
 
     <h2 id="totalSales">₹0</h2>
   </div>
+  <!-- REVIEWS -->
+<div class="section" id="reviews">
+  <h3>⭐ Customer Reviews</h3>
+  <div id="reviewsList"></div>
+</div>
 
 <script>
 const ADMIN_ID = "admin";
@@ -422,6 +421,7 @@ function loadReviews(){
 
 </body>
 </html>
+
 
 
 
