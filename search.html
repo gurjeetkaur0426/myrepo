@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>QuickBite – Search</title>
+
+<style>
+body{
+  font-family:Segoe UI;
+  margin:0;
+  background:#f6f7fb;
+}
+
+.header{
+  background:#ff2e63;
+  color:white;
+  padding:15px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.search-box{
+  display:flex;
+  gap:10px;
+}
+
+.search-box input{
+  padding:10px 15px;
+  border-radius:25px;
+  border:none;
+  outline:none;
+}
+
+.search-box button{
+  padding:10px 25px;
+  border-radius:25px;
+  border:none;
+  background:black;
+  color:white;
+  cursor:pointer;
+}
+
+.results{
+  padding:20px;
+}
+
+.food-card{
+  display:flex;
+  gap:20px;
+  background:white;
+  margin:20px auto;
+  padding:16px;
+  border-radius:16px;
+  max-width:850px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.food-card img{
+  width:160px;
+  height:120px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.add-btn{
+  background:#ff2e63;
+  color:white;
+  border:none;
+  padding:8px 18px;
+  border-radius:20px;
+  cursor:pointer;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h2>🔍 QuickBite Search</h2>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search food...">
+    <button onclick="searchFood()">Search</button>
+    <button onclick="goHome()">← Back</button>
+  </div>
+</div>
+
+<div id="results" class="results"></div>
+
+<script>
+
+/* STATIC FOOD */
+let staticFoods = [
+
+  // 🍕 PIZZAS
+  {name:"Cheese Pizza", price:199, image:"images/chesse pizza.jpg"},
+  {name:"Veg Loaded Pizza", price:249, image:"images/veg loaded pizza.jpg"},
+  {name:"Paneer Pizza", price:199, image:"images/panner pizza.jpg"},
+  {name:"Chicken Pizza", price:320, image:"images/chicken pizza.jpg"},
+  {name:"Double Cheese Pizza", price:335, image:"images/double cheese pizza.jpg"},
+  {name:"Capsicum Pizza", price:210, image:"images/capsicum pizza.jpg"},
+  {name:"Cheese Burst Pizza", price:360, image:"images/chesse burst pizza.jpg"},
+  {name:"Supreme Pizza", price:400, image:"images/supreme  pizza.jpg"},
+  {name:"Margherita Pizza", price:180, image:"images/margherita pizza.jpg"},
+  {name:"Hawaiian Pizza", price:420, image:"images/hawaiian pizza.jpg"},
+  {name:"Onion Pizza", price:170, image:"images/onion pizza.jpg"},
+  {name:"Supreme Veg Pizza", price:280, image:"images/supreme veg pizza.jpg"},
+  {name:"Pepperoni Pizza", price:390, image:"images/pepperoni pizza.jpg"},
+  {name:"Mexican Pizza", price:350, image:"images/mexican pizza.jpg"},
+
+  // 🍔 BURGERS
+  {name:"Veg Burger", price:149, image:"images/veg burger.jpg"},
+  {name:"Cheese Burger", price:189, image:"images/cheeseburger.jpg"},
+  {name:"Classic Beef Burger", price:299, image:"images/classicbeefburger.jpg"},
+  {name:"Spicy Burger", price:199, image:"images/spicyburger.jpg"},
+  {name:"All American Burger", price:349, image:"images/allamericanburger.jpg"},
+  {name:"Big Flipp Burger", price:299, image:"images/bigflipp.jpg"},
+  {name:"Crunchy Burger", price:180, image:"images/crunchyburger.jpg"},
+  {name:"Truffle Angus Burger", price:420, image:"images/truffleangusburger.jpg"},
+  {name:"Grilled Burger", price:210, image:"images/grilledburger.jpg"},
+  {name:"Avacado Burger", price:250, image:"images/avacadoburger.jpg"},
+  {name:"Crispy Burger", price:190, image:"images/crispyburger.jpg"},
+  {name:"Jalapeno Burger", price:220, image:"images/jalapenoburger.jpg"},
+  {name:"Manchurian Burger", price:200, image:"images/manchuriannoodle.jpg"},
+
+  // 🥪 SANDWICH
+  {name:"Veg Sandwich", price:89, image:"images/veg sandwich.jpg"},
+  {name:"Grilled Sandwich", price:105, image:"images/grilled sandwich.jpg"},
+  {name:"Aloo Patty Sandwich", price:89, image:"images/aloopattysandwich.jpg"},
+  {name:"Paneer Tikka Sandwich", price:120, image:"images/paneertikkasandwich.jpg"},
+  {name:"Cheese Corn Sandwich", price:110, image:"images/cheesecornsandwich.jpg"},
+  {name:"Paneer Club Sandwich", price:140, image:"images/club.jpg"},
+  {name:"Tandoori Sandwich", price:130, image:"images/tandori.jpg"},
+
+  // 🍜 NOODLES
+  {name:"Hakka Noodle", price:140, image:"images/hakka noodle.jpg"},
+  {name:"Veggie Noodle", price:150, image:"images/veggie noodle.jpg"},
+  {name:"Veg Chilli Garlic Noodle", price:170, image:"images/vegchilligarlicnoodle.jpg"},
+  {name:"Schezwan Noodle", price:160, image:"images/schezwannoodle.jpg"},
+  {name:"Seafood Noodle", price:240, image:"images/seafood noodle.jpg"},
+  {name:"Chicken Noodle", price:180, image:"images/chicken noodle.jpg"},
+
+  // 🥤 DRINKS
+  {name:"Iced Coffee", price:120, image:"images/icedcoffee.jpg"},
+  {name:"Oreo Shake", price:120, image:"images/oreoshake.jpg"},
+  {name:"Vanilla Shake", price:110, image:"images/vanillashake.jpg"},
+  {name:"Kitkat Shake", price:115, image:"images/kitkat shake.jpg"},
+  {name:"Mojito", price:90, image:"images/mojito.jpg"},
+  {name:"Pink Lime Mojito", price:110, image:"images/pinklimemojito.jpg"},
+  {name:"Fruit Beer", price:90, image:"images/fruitbeer.jpg"},
+  {name:"Coco Cola 40ml", price:40, image:"images/coco cola.jpg"},
+  {name:"Badam Shake", price:130, image:"images/badamshake.jpg"},
+
+  // 🍰 DESSERTS
+  {name:"Chocolate Brownie", price:120, image:"images/chocolate browniee.jpg"},
+  {name:"Cheese Cake", price:150, image:"images/cheese cake.jpg"},
+  {name:"Truffle Pastry", price:110, image:"images/trufflepastry.jpg"},
+  {name:"Sponge Cake", price:100, image:"images/spongecake.jpg"},
+  {name:"Cream Roll", price:50, image:"images/creamroll.jpg"},
+  {name:"Milk Peda", price:70, image:"images/milkpeda.jpg"},
+  {name:"Doughnut", price:60, image:"images/doughnut.jpg"},
+  {name:"Fruit Turt", price:89, image:"images/fruit turt.jpg"}
+
+];
+
+
+/* ADMIN FOOD */
+let adminFoods = JSON.parse(localStorage.getItem("foods")) || [];
+
+/* MERGE BOTH */
+let foods = [...staticFoods, ...adminFoods];
+
+/* SHOW FOOD */
+function showFoods(list){
+  let html = "";
+
+  if(list.length === 0){
+    html = "<h3>No items found</h3>";
+  } else {
+    list.forEach(item=>{
+      html += `
+        <div class="food-card">
+          <img src="${item.image || item.img}">
+          <div>
+            <h3>${item.name}</h3>
+            <p>₹${item.price}</p>
+            <button class="add-btn"
+              onclick="addToCart('${item.name}', ${item.price}, '${item.image || item.img}')">
+              Add
+            </button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  document.getElementById("results").innerHTML = html;
+}
+
+/* SEARCH FUNCTION (ONLY ONE) */
+function searchFood(){
+  let value = document.getElementById("searchInput").value.toLowerCase().trim();
+
+  let filtered = foods.filter(f =>
+    f.name.toLowerCase().includes(value)
+  );
+
+  showFoods(filtered);
+}
+
+/* LOAD FROM URL */
+window.onload = function(){
+  const params = new URLSearchParams(window.location.search);
+  const foodFromURL = params.get("food");
+
+  if(foodFromURL){
+    document.getElementById("searchInput").value = foodFromURL;
+    searchFood();
+  } else {
+    showFoods(foods);
+  }
+};
+
+/* BACK */
+function goHome(){
+  window.location.href = "index.html";
+}
+
+/* ADD TO CART */
+function addToCart(name, price, image){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.push({ name, price, image });
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  alert(name + " added to cart ✅");
+}
+
+</script>
+
+</body>
+</html>

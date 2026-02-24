@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Live Delivery Tracking</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  font-family:'Segoe UI',sans-serif;
+}
+
+/* Box */
+.delivery-box{
+  position:fixed;
+  top:30px;
+  right:30px;
+  width:360px;
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.delivery-box h3{
+  margin:0;
+  color:#ff2e63;
+}
+
+.time{
+  margin-top:8px;
+  font-weight:bold;
+  color:#555;
+}
+
+/* Road */
+.road{
+  width:100%;
+  height:50px;
+  background:#eee;
+  border-radius:30px;
+  margin-top:15px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Moving Bike */
+.bike{
+  position:absolute;
+  font-size:28px;
+  left:0;
+}
+
+/* Progress */
+.progress{
+  width:100%;
+  height:8px;
+  background:#ddd;
+  border-radius:10px;
+  margin-top:15px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#ff2e63;
+  transition:0.3s;
+}
+
+.complete{
+  color:green;
+  font-weight:bold;
+  margin-top:12px;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="delivery-box">
+  <h3>📦 Order Confirmed!</h3>
+  Delivery Partner is on the way
+
+  <div class="time">
+    Estimated Time: <span id="countdown">30:00</span>
+  </div>
+
+  <div class="road">
+    <div class="bike" id="bike">🛵</div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="complete" id="doneMsg">
+    🎉 Delivered Successfully!
+  </div>
+</div>
+
+<script>
+
+let totalTime = 1800; // 30 minutes in seconds
+let timeLeft = totalTime;
+
+let bike = document.getElementById("bike");
+let progressBar = document.getElementById("progressBar");
+let roadWidth = 300; // movement area width approx
+
+let timer = setInterval(function(){
+
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
+
+  if(seconds < 10){
+    seconds = "0" + seconds;
+  }
+
+  document.getElementById("countdown").innerText =
+    minutes + ":" + seconds;
+
+  // Percentage completed
+  let percent = ((totalTime - timeLeft) / totalTime) * 100;
+
+  // Move bike
+  bike.style.left = (percent * 3) + "px";
+
+  // Progress bar
+  progressBar.style.width = percent + "%";
+
+  timeLeft--;
+
+  if(timeLeft < 0){
+    clearInterval(timer);
+    bike.style.left = "300px";
+    progressBar.style.width = "100%";
+    document.getElementById("doneMsg").style.display="block";
+  }
+
+},1000);
+
+</script>
+
+</body>
+</html>

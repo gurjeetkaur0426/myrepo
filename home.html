@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Food Ordering | Gurjeet Kaur</title>
+
+<style>
+.login-btn{
+  padding:10px 25px;
+  background:#ff2e63;
+  color:white;
+  border:none;
+  border-radius:25px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.popup-box{
+  background:white;
+  width:350px;
+  padding:30px;
+  border-radius:18px;
+  text-align:center;
+}
+
+.popup-box h2{
+  color:#ff2e63;
+  margin-bottom:20px;
+}
+
+.popup-box input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+.popup-box button{
+  width:100%;
+  padding:12px;
+  background:#ff2e63;
+  border:none;
+  color:white;
+  border-radius:10px;
+  font-size:16px;
+  margin-top:10px;
+  cursor:pointer;
+}
+    
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 75px;
+  background: linear-gradient(135deg, #ff2e63, #ff7a18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+.navbar ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 3px;
+  background: white;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.navbar ul li a:hover::after {
+  width: 100%;
+}
+
+.navbar ul li a:hover {
+  transform: translateY(-2px);
+}
+.save-btn{
+  margin-top:10px;
+  padding:12px 25px;
+  background:#ff2e63;
+  color:white;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.4s;
+  position:relative;
+  overflow:hidden;
+}
+
+.save-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:rgba(255,255,255,0.3);
+  transition:0.4s;
+}
+.save-btn{
+  background: white;
+  color: #ff2f5b;
+  border: 2px solid #ff2f5b;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.save-btn:hover{
+  background:#ff2f5b;
+  color:white;
+}
+
+
+
+.login {
+  background: white;
+  color: #ff2e63 !important;
+  padding: 8px 22px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.login:hover {
+  background: #000;
+  color: #fff !important;
+}
+
+
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI;}
+body{background:#fff}
+
+/* HERO */
+.hero{
+height:100vh;
+background:
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
+animation:fade 2s;
+}
+@keyframes fade{
+from{opacity:0}to{opacity:1}
+}
+.hero h1{font-size:60px;}
+.hero p{font-size:22px;margin:10px 0 30px;}
+
+.search{
+background:white;
+padding:10px;
+border-radius:40px;
+width:420px;
+display:flex;
+margin:auto;
+}
+.search input{
+flex:1;border:none;outline:none;
+padding-left:15px;font-size:16px;
+}
+.search button{
+background:#ff2e63;
+color:white;
+border:none;
+padding:12px 30px;
+border-radius:30px;
+cursor:pointer;
+}
+
+/* CATEGORY */
+.category{
+padding:60px;
+text-align:center;
+background:#f7f7f7;
+}
+.category h2{color:#ff2e63;margin-bottom:20px;}
+.category button{
+margin:10px;
+padding:12px 30px;
+border:none;
+border-radius:30px;
+background:#ff2e63;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:.3s;
+}
+.category button:hover{
+background:#000;
+transform:scale(1.05);
+}
+.save-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.save-box{
+  background:white;
+  width:320px;
+  padding:30px;
+  border-radius:18px;
+  text-align:center;
+  animation:pop 0.4s ease;
+}
+
+.save-box h2{
+  color:#ff2e63;
+  margin-bottom:10px;
+}
+
+.save-box button{
+  margin-top:15px;
+  padding:10px 25px;
+  background:#ff2e63;
+  color:white;
+  border:none;
+  border-radius:25px;
+  cursor:pointer;
+}
+
+@keyframes pop{
+  from{
+    transform:scale(0.5);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+/* FOOD */
+.foods{
+padding:60px;
+text-align:center;
+}
+.foods h2{color:#ff2e63;margin-bottom:30px;}
+
+.food-grid{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 25px;
+  justify-items: center;
+}
+
+
+.food{
+width:230px;
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 15px 30px rgba(0,0,0,.15);
+transition:.4s;
+}
+.food:hover{transform:translateY(-10px);}
+
+.food img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.food h4{margin:10px;}
+.food p{margin:0 10px;color:#ff2e63;font-weight:bold;}
+.food button{
+margin:10px;
+padding:8px 20px;
+background:#ff2e63;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+} 
+
+
+/* CART */
+.cart{
+position:fixed;
+right:20px;
+bottom:20px;
+background:#ff2e63;
+color:white;
+padding:15px 25px;
+border-radius:30px;
+font-weight:bold;
+font-size:18px;
+}
+
+body, html {
+  margin: 0;
+  height: 100%;
+  font-family: Arial;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero img,
+.hero video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color:pink;
+  text-align: center;
+  z-index: 5;
+}
+
+.hero-content h1 {
+  font-size: 48px;
+}
+
+.hero-content input {
+  padding: 12px;
+  width: 250px;
+  border-radius: 25px;
+  border: none;
+}
+
+.hero-content button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  background: #ff2e63;
+  color: white;
+}
+.pizza-size {
+  width: 90%;
+  padding: 10px 15px;
+  margin: 8px auto;
+  border-radius: 25px;
+  border: 2px solid #ff2e63;
+  background: #fff;
+  color: #333;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+/* hover effect */
+.pizza-size:hover {
+  background: #ff2e63;
+  color: white;
+  box-shadow: 0 0 15px rgba(255,46,99,0.6);
+  transform: scale(1.05);
+}
+
+/* when selected */
+.pizza-size:focus {
+  background: #ff2e63;
+  color: white;
+  box-shadow: 0 0 20px rgba(255,46,99,0.9);
+}
+
+/* option style */
+.pizza-size option {
+  background: white;
+  color: black;
+  font-weight: 600;
+}
+.receipt-popup{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.receipt-box{
+  background: #fff;
+  width: 320px;
+  padding: 20px;
+  border-radius: 12px;
+  animation: zoom 0.3s ease;
+}
+
+.receipt-box h2{
+  text-align: center;
+  margin-bottom: 10px;
+  color: #e23744;
+}
+
+.receipt-box h3{
+  text-align: center;
+  margin-top: 10px;
+}
+
+.receipt-box button{
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  background: #e23744;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@keyframes zoom{
+  from{transform: scale(0.7);}
+  to{transform: scale(1);}
+}
+.order-bar{
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;              /* Pure white */
+  padding: 20px 28px;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);  /* Strong shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 260px;
+  z-index: 9999;
+  border: 2px solid #ff2e63;        /* Border for contrast */
+}
+
+@keyframes slideUp{
+  from{
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.order-total{
+  font-weight: 700;
+  font-size: 16px;
+  color: #ff2e63;
+  text-align: center;
+}
+.save-btn{
+  padding: 10px 22px;
+  background: #ff2e63;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.save-btn:hover{
+  background: #222;
+  transform: scale(1.05);
+}
+
+
+.order-total{
+  display:flex;
+  flex-direction:column;
+  align-items:center;   /* ⭐ CENTER */
+  gap:10px;
+  text-align:center;
+}
+
+.order-btn{
+  background: white;
+  color: #ff3b3b;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.order-btn:hover{
+  background: #ffecec;
+  transform: scale(1.05);
+}
+#orderHistory{
+  max-height: 70vh;      /* screen ka 70% */
+  overflow-y: auto;      /* scroll enable */
+  padding-right: 8px;
+}
+@keyframes pulse{
+  0%{transform:scale(0.97); opacity:0.6;}
+  100%{transform:scale(1); opacity:1;}
+}
+
+.save-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.save-box {
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 15px;
+  text-align: center;
+  z-index: 1000; /* ⭐ MOST IMPORTANT */
+}
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+}
+.order-total{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+
+.receipt-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  width: 320px;
+  text-align: center;
+
+  z-index: 1000;   /* ⭐ CLOSE BUTTON WORKS */
+}
+.search-btn{
+  padding:12px 25px;
+  background:#ff4d4d;
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:600;
+}
+.search-btn:hover{
+  background:#e60000;
+}
+.contact-popup{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.contact-box{
+  width:320px;
+  padding:25px;
+  border-radius:20px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px);
+  color:white;
+  text-align:center;
+  animation: popup 0.4s ease;
+}
+
+.contact-box h2{
+  margin-bottom:15px;
+  color:#fff;
+}
+
+.contact-box p{
+  margin:8px 0;
+  font-size:16px;
+}
+
+.contact-box button{
+  margin-top:15px;
+  padding:10px 25px;
+  border:none;
+  border-radius:25px;
+  background:#ff4757;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+}
+
+@keyframes popup{
+  from{transform:scale(0.6); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+.popup{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.popup-box{
+  background:white;
+  padding:20px;
+  width:300px;
+  border-radius:15px;
+  max-height:80vh;
+  overflow:auto;
+}
+.orders-popup{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.orders-box{
+  background: #fff;
+  width: 320px;
+  padding: 25px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.close-btn{
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  background: #ff3b6c;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: red;
+  top: -10px;
+  animation: fall 3s linear forwards;
+  z-index: 99999;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+.offer-marquee-box{
+  background: linear-gradient(135deg, #ff2e63, #ff8a00);
+  color: #ffffff;
+  font-weight: 800;         /* 👈 aur bold */
+  margin: 12px 20px;
+  border-radius: 14px;      /* 👈 smooth big box */
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+  letter-spacing: 0.8px;
+  font-size: 22px;
+padding: 18px 0;
+
+}
+.place-btn{
+  background:#ff2e63;
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  font-size:16px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.tracking-box{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:20px;
+}
+
+.step{
+  text-align:center;
+  font-size:16px;
+  color:#aaa;
+}
+
+.step.active{
+  color:#ff2e63;
+  font-weight:700;
+}
+
+.line{
+  width:60px;
+  height:4px;
+  background:#ddd;
+  margin:0 10px;
+  border-radius:5px;
+}
+
+.step.active + .line{
+  background:#ff2e63;
+}
+.checkout-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+    z-index:10000;
+}
+
+.checkout-box{
+  background:white;
+  padding:25px;
+  width:350px;
+  border-radius:15px;
+  text-align:center;
+    z-index:10001;
+}
+
+.checkout-box input,
+.checkout-box textarea{
+  width:100%;
+  padding:8px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+.checkout-box button{
+  display:block;
+  width:100%;
+  margin-top:18px;
+  padding:12px;
+  border:none;
+  border-radius:25px;
+  background:#ff2e63;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.checkout-box {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.checkout-box label{
+  display:block;        /* har option new line me */
+  margin:6px 0;
+  text-align:left;
+}
+
+#scannerBox{
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.payment-option{
+  display:block;
+  padding:10px;
+  margin:6px 0;
+  border:2px solid #eee;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* hover effect */
+.payment-option:hover{
+  border-color:#ff2e63;
+  background:#fff0f5;
+}
+
+/* selected highlight */
+.payment-option input[type="radio"]:checked + span,
+.payment-option input[type="radio"]:checked{
+  accent-color:#ff2e63;
+}
+
+.payment-option:has(input:checked){
+  border-color:#ff2e63;
+  background:#ffe3ec;
+  box-shadow:0 0 0 2px rgba(255,46,99,0.15);
+}
+.delivery-box{
+  position:fixed;
+  top:80px;
+  left:50%;
+  transform:translateX(-50%);
+  width:380px;
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  z-index:9999;
+}
+.road{
+  width:100%;
+  height:50px;
+  background:#eee;
+  border-radius:25px;
+  margin-top:15px;
+  position:relative;
+  overflow:hidden;
+}
+
+.bike{
+  position:absolute;
+  font-size:26px;
+  left:0;
+  top:10px;
+}
+
+.progress{
+  width:100%;
+  height:8px;
+  background:#ddd;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:#ff2e63;
+  border-radius:10px;
+  transition:0.5s;
+}
+
+.complete{
+  margin-top:10px;
+  color:green;
+  font-weight:bold;
+  display:none;
+}
+.review-box{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-top:20px;
+}
+
+.stars span{
+  font-size:25px;
+  cursor:pointer;
+  color:#ccc;
+}
+
+.stars span.active{
+  color:gold;
+}
+
+textarea{
+  width:100%;
+  height:70px;
+  margin-top:10px;
+  padding:8px;
+}
+
+.review-box button{
+  background:#ff2e63;
+  color:white;
+  border:none;
+  padding:8px 20px;
+  border-radius:20px;
+  cursor:pointer;
+}
+.rate-title{
+  font-size: 22px;
+  font-weight: 600;
+  color: #ff2e63;
+  text-shadow: 0 0 8px rgba(255,46,99,0.6);
+}
+.stars span{
+  font-size: 28px;   /* pehle 20-22 hoga */
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.stars span:hover{
+  transform: scale(1.2);
+}
+</style>
+</head>
+<!-- htmllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll -->
+<body>
+    <nav class="navbar">
+  <div class="logo">🍕QUICKBITE🌮</div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#" onclick="goMenu()">Menu</a></li>
+    <li><a href="#" onclick="openOrders()">Orders</a></li>
+    <li><a href="#" onclick="openContact()">Contact</a></li>
+    <li><a href="#" class="login">Login</a></li>
+    <li><a href="admin.html" class="admin">Admin</a></li>
+  </ul>
+</nav>
+<div id="loginPopup" class="popup">
+
+  <div class="popup-box">
+    <h2>Login</h2>
+    <input type="text" id="userName" placeholder="Enter your name">
+
+<textarea id="userAddress" placeholder="Enter your address"></textarea>
+
+
+<input type="text" id="mobile" placeholder="Enter Mobile Number">
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<div id="otpBox" style="display:none; margin-top:15px;">
+  <input type="text" id="otpInput" placeholder="Enter OTP">
+  <button onclick="verifyOTP()">Verify OTP</button>
+</div>
+
+<p id="otpMsg" style="margin-top:10px; color:green;"></p>
+
+  </div>
+
+</div>
+<!-- RECEIPT POPUP -->
+<div id="receiptPopup" class="receipt-popup">
+  <div class="receipt-box">
+    <h2>🧾 QuickBite Receipt</h2>
+
+    <div id="receiptItems"></div>
+
+    <hr>
+
+    <h3>Total: ₹<span id="receiptTotal">0</spytrran></h3>
+
+    <button onclick="closeReceipt()">Close</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+
+  <!-- IMAGES video -->
+  <img src="images/background.jpg" class="slide">
+    
+  <video class="slide" muted>
+    <source src="images/video.mp4" type="video/mp4">
+  </video>
+
+  <img src="images/phone.jpg" class="slide">
+
+
+  <video class="slide" muted>
+    <source src="images/video.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-content">
+    <h1>🔥 QuickBite – Taste That You Love</h1>
+    <p>🏡🥪Ghar jaisa swaad,🍷🍸online order</p>
+<input 
+  type="text"
+  id="searchInput"
+  placeholder="Search food..."
+>
+
+<button onclick="goSearch()">Search</button>
+
+
+  </div>
+
+</div>
+<marquee class="offer-marquee-box" scrollamount="16" scrolldelay="20" truespeedloop="infinite">>
+  💣 MEGA DHAMAKA OFFER! Flat 20% OFF on All Orders | Hurry Up!
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+🔥 Flat 20% OFF | 🚚 Free Delivery above ₹299 | ⚡ Fast & Fresh
+</marquee>
+
+<!-- CATEGORY -->
+<div class="category">
+<h2>Food Categories</h2>
+<button onclick="filterFood('all')">All</button>
+<button onclick="filterFood('pizza')">🍕 Pizza</button>
+<button onclick="filterFood('burger')">🍔 Burger</button>
+<button onclick="filterFood('noodles')">🍜 Noodles</button>
+<button onclick="filterFood('dessert')">🍰 Dessert</button>
+<button onclick="filterFood('drinks')">🥤 Drinks</button>
+<button onclick="filterFood('sandwich')">🥪sandwich</button>
+</div>
+
+<!-- FOOD ITEMS -->
+<div class="foods" id="Menu">
+<h2>Food Menu</h2>
+
+<div class="food-grid">
+
+<!-- PIZZA -->
+<div class="food pizza" data-price="199">
+    <img src="images/chesse pizza.jpg">
+<h4>Cheese Pizza</h4>
+<select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+<p>₹199</p>
+<button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food pizza" data-price="249">
+    <img src="images/veg loaded pizza.jpg">
+<h4>Veg Loaded Pizza</h4>
+<select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+<p>₹249</p>
+<button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food pizza" data-price="199">
+    <img src="images/panner pizza.jpg">
+<h4>Paneer Pizza</h4>
+<select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+<p>₹199</p>
+<button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food pizza" data-price="320"> 
+    <img src="images/chicken pizza.jpg">
+    <h4>Chicken Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹320</p>
+    <button onclick="addPizza(this)">Add</button>
+
+</div>
+<div class="food pizza" data-price="335">
+    <img src="images/double cheese pizza.jpg">
+    <h4>  double chesse Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹335</p>
+    <button onclick="addPizza(this)">Add</button>
+
+
+</div>
+<div class="food pizza" data-price="210">
+<img src="images/capsicum pizza.jpg">    
+    <h4>capsicum Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹210</p>
+    <button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food pizza"data-price=360>
+    <img src="images/chesse burst pizza.jpg">
+    <h4> cheese burst Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹360</p>
+        <button onclick="addPizza(this)">Add</button>
+      </div>
+
+<div class="food pizza" data-price="400">
+    <img src="images/supreme  pizza.jpg">
+    <h4> supreme Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹400</p>
+    <button onclick="addPizza(this)">Add</button>
+</div>
+<!-- sandwich -->
+
+<div class="food sandwich">
+    <img src="images/veg sandwich.jpg">
+    <h4> Veg Sandwich</h4>
+    <p>₹89</p>
+    <button onclick="add(89,'veg sandwich')">Add</button>
+</div>
+<div class="food sandwich">
+    <img src="images/grilled sandwich.jpg">
+     <h4>grilled sandwich</h4>
+    <p>₹105</p>
+    <button onclick="add(105,'grilled sandwich')">Add</button>
+</div>
+
+<div class="food pizza" data-price="390">
+    <img src="images/margherita pizza.jpg">
+    <h4> Margherita Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹390</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food pizza" data-price="480">
+    <img src="images/hawaiian pizza.jpg">
+    <h4> Hawaiian Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹480</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+<!-- drinks -->
+ <div class="food drinks">
+ <img src="images/coco cola.jpg">
+ <h4> coco cola 480ml </h4>
+ <p>40</p>
+ <button onclick="add(40,'coco cola 480ml')">Add</button>
+ </div>
+ <div class="food drinks">
+    <img src="images/kitkat shake.jpg">
+    <h4> kitkat shake</h4>
+    <p> 115</p>
+    <button onclick="add(115,'kitkat shake')"> Add</button>
+ </div>
+<div class="food pizza" data-price="149">
+    <img src="images/onion pizza.jpg">
+    <h4> onion Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹149</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+<div class="food pizza" data-price="699">
+    <img src="images/supreme veg pizza.jpg">
+    <h4> Supreme Veg Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹699</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+
+<!-- BURGER -->
+<div class="food burger">
+    <img src="images/veg burger.jpg">
+<h4>Veg Burger</h4>
+<p>₹149</p>
+<button onclick="add(149,'veg burger')">Add</button>
+</div>
+<div class="food pizza" data-price="580">
+    <img src="images/pepperoni pizza.jpg">
+    <h4> Pepperoni Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹580</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food pizza" data-price="310">
+    <img src="images/mexican pizza.jpg">
+    <h4> Mexican Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹310</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food burger">
+    <img src="images/cheese burger.jpg">
+<h4>Cheese Burger</h4>
+<p>₹179</p>
+<button onclick="add(179,'cheese Pizza')">Add</button>
+</div>
+<div class="food dessert">
+    <img src="images/chocolate browniee.jpg">
+    <h4>Chocolate Brownie</h4>
+    <p>₹99</p>
+    <button onclick="add(99,'chocolate pizza')">Add</button>
+</div>
+<div class=" food dessert">
+<img src="images/vanilla ice cream.jpg">
+    <h4>Vanilla Ice Cream</h4>
+    <p>₹79</p>
+    <button onclick="add(79,'vanilla ice cream')">Add</button>
+</div>
+<div class=" food dessert">
+    <img src="images/fruit turt.jpg">
+    <h4>Fruit Tart</h4>
+    <p>₹89</p>
+    <button onclick="add(89,'fruit tart')">Add</button>
+</div>
+<div class=" food dessert">
+    <img src=" images/Cheese cake.jpg">
+    <h4>Cheesecake</h4>
+    <p>₹129</p>
+    <button onclick="add(129,'Cheesecake')">Add</button>
+</div>
+
+
+<!-- NOODLES -->
+<div class="food noodles">
+<img src="images/hakka noodle.jpg">
+    <h4>Hakka Noodles</h4>
+<p>₹189</p>
+<button onclick="add(189,'Hakka noodles')">Add</button>
+</div>
+<div class="food noodles">
+<img src="images/veggie noodle.jpg">
+<h4>veggie noodle</h4>
+<p>₹149</p>
+<button onclick="add(149,'veggie noodle')">Add</button>
+</div>
+
+<div class="food pizza" data-price="390">0
+<img src="images/margherita pizza.jpg">
+    <h4> Margherita Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹390</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food noodles">
+    <img src="images/chicken noodle.jpg">
+<h4>chicken noodle</h4>
+<p>₹199</p>
+<button onclick="add(199,'chicken noodle')">Add</button>
+</div>
+
+<div class="food pizza" data-price="365">
+<img src="images/bbq pizza.jpg">
+    <h4> BBQ Pizza</h4>
+    <select class="pizza-size">
+  <option value="0">Regular</option>
+    <option value="50">Medium +₹50</option>
+    <option value="100">Large +₹100</option>
+</select>
+    <p>₹365</p>
+        <button onclick="addPizza(this)">Add</button>
+</div>
+
+<div class="food noodles">
+    <img src="images/chicken noodle.jpg">
+<h4> chicken noodle</h4>
+<p>₹199</p>
+<button onclick="add(199,'chicken noodle')">Add</button>
+</div>
+
+<div class="food noodles">
+    <img src="images/seafood noodle.jpg">
+<h4>seafood noodle</h4>
+<p>₹249</p>
+<button onclick="add(249,'seafood noodle')">Add</button>
+    </div>
+
+</div>
+</div>
+
+<!-- CART -->
+<div class="cart">
+  🛒 Total ₹ <span id="total">0</span>
+  <ul id="cartItems"></ul>
+</div>
+<!-- receipt button  -->
+<div class="order-bar">
+  <div class="order-total">
+    🛒 QUICK BITE RECEIPT <span id="total"></span>
+    <button class="save-btn" onclick="saveOrderPopup()">Place Order</button>
+</div>
+
+<!-- TRACKING (hidden by default) -->
+<div id="trackingSection" style="display:none;">
+  <div class="tracking-box">
+    <div class="step active">🏪<br>Restaurant</div>
+    <div class="line"></div>
+    <div class="step">🚴<br>On Way</div>
+    <div class="line"></div>
+    <div class="step">🏠<br>Home</div>
+  </div>
+
+  <p id="trackText">📦 Order Confirmed</p>
+</div>
+
+</div>
+
+<div id="savePopup" class="save-popup">
+  <div class="save-box">
+    <h2>✅ Order Saved</h2>
+    <p>Your food order has been saved successfully.</p>
+    <button onclick="closeSavePopup()">OK</button>
+  </div>
+</div>
+<!-- CONTACT POPUP -->
+<div class="contact-popup" id="contactPopup">
+  <div class="contact-box">
+    <h2>📞 Contact QuickBite</h2>
+
+    <p>📍 Location: haryana ,INDIA </P>
+    <p>📞 Phone: +91 98765 43210</p>
+    <p>📧 Email: quickbite@gmail.com</p>
+    <p>🕒 Delivery Time: 10 AM – 11 PM</p>
+
+    <button onclick="closeContact()">Close</button>
+  </div>
+</div>
+<!-- order popup-->
+
+<div id="ordersPopup" class="orders-popup">
+  <div class="orders-box">
+    <button class="close-orders" onclick="closeOrders()">✖</button>
+    <h2>📦 Your Orders</h2>
+
+    <div id="orderHistory">
+      <p>No previous orders found 😔</p>
+    </div>
+
+    <button type="button" class="close-btn" onclick="closeOrders()">
+      Close
+    </button>
+  </div>
+</div>
+<div id="checkoutModal" class="checkout-modal">
+  <div class="checkout-box">
+
+    <h2>🧾 Complete Your Order</h2>
+
+    <input type="text" id="checkoutName" placeholder="Full Name">
+    <input type="text" id="checkoutMobile" placeholder="Mobile Number">
+    <textarea id="checkoutAddress" placeholder="Full Address"></textarea>
+
+    <h3>Select Payment</h3>
+
+    <label>
+      <input type="radio" name="payment" value="cod" onchange="toggleUPI()"> Cash on Delivery
+    </label>
+
+    <label>
+      <input type="radio" name="payment" value="upi" onchange="toggleUPI()"> UPI
+    </label>
+
+    <!-- UPI Scanner -->
+     <div id="scannerBox" style="display:none; text-align:center; margin-top:15px;">
+  <h4>Scan & Pay</h4>
+  <img src="images/scanner.jpg" width="200">
+  <p>Please complete payment before confirming order.</p>
+
+  <label>
+    <input type="checkbox" id="upiPaid">
+    I have completed payment
+  </label>
+</div>
+    <!-- Confirm Button -->
+<button id="confirmBtn" onclick="confirmCheckout()">Confirm Order</button>
+  </div>
+</div>
+<!-- DELIVERY TRACKING -->
+<div class="delivery-box" id="deliveryBox" style="display:none;">
+  <h3>📦 Order Confirmed!</h3>
+  Delivery Partner is on the way
+
+  <div class="time">
+    Estimated Time: <span id="countdown">30:00</span>
+  </div>
+
+  <div class="road">
+    <div class="bike" id="bike">🛵</div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="complete" id="doneMsg">
+    🎉 Delivered Successfully!
+  </div>
+</div>
+<div id="upiSection" style="display:none;">
+  <h4>Scan & Pay</h4>
+  <img src="qr.png" width="150">
+
+  <br><br>
+
+  <label>
+    <input type="checkbox" id="paymentDone">
+    I have completed payment
+  </label>
+</div>
+<div class="review-box">
+  <h3 class="rate-title">Rate & Review</h3>
+
+  <div class="stars">
+    <span onclick="setRating(1)">★</span>
+    <span onclick="setRating(2)">★</span>
+    <span onclick="setRating(3)">★</span>
+    <span onclick="setRating(4)">★</span>
+    <span onclick="setRating(5)">★</span>
+  </div>
+
+  <textarea id="comment" placeholder="Write your comment..."></textarea>
+  <br>
+  <button onclick="submitReview()">Submit Review</button>
+</div>
+
+
+
+
+
+
+<script>
+let selectedRating = 0;
+  let generatedOTP = "";
+
+function sendOTP(){
+  let mobile = document.getElementById("mobile").value;
+
+  if(mobile.length !== 10){
+    alert("Enter valid 10 digit mobile number");
+    return;
+  }
+
+  generatedOTP = Math.floor(1000 + Math.random() * 9000);
+
+  document.getElementById("otpMsg").innerText =
+    "Your OTP is: " + generatedOTP;
+
+  document.getElementById("otpBox").style.display = "block";
+}
+function verifyOTP(){
+  let userOTP = document.getElementById("otpInput").value;
+
+  if(userOTP == generatedOTP){
+
+    let name = document.getElementById("userName")?.value || "";
+    let address = document.getElementById("userAddress")?.value || "";
+    let mobile = document.getElementById("mobile").value;
+
+    if(name === "") name = "Guest";
+    if(address === "") address = "Not provided";
+
+    localStorage.setItem("currentUser", mobile);
+    localStorage.setItem("userName", name);
+    localStorage.setItem("userAddress", address);
+// 🔔 ADMIN USER INBOX ENTRY
+  let inbox = JSON.parse(localStorage.getItem("userInbox")) || [];
+
+inbox.unshift({
+    name: name,
+    mobile: mobile,
+    address: address,
+    time: new Date().toLocaleString(),
+    read: false
+  });
+
+  localStorage.setItem("userInbox", JSON.stringify(inbox));
+
+    alert("✅ Login Successful");
+    document.getElementById("loginPopup").style.display = "none";
+
+  } else {
+    alert("❌ Wrong OTP");
+  }
+}
+
+let orderSaved = false;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let total = 0;
+updateCartUI();
+
+
+function updateCartUI(){
+  let cartList = document.getElementById("cartItems");
+  cartList.innerHTML = "";
+  total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+
+    let li = document.createElement("li");
+    li.style.marginBottom = "6px";
+    li.innerHTML = `
+      ${item.name} - ₹${item.price}
+      <button onclick="removeItem(${index})"
+        style="margin-left:10px;
+        background:black;
+        color:white;
+        border:none;
+        border-radius:10px;
+        padding:2px 8px;
+        cursor:pointer;">❌</button>
+    `;
+    cartList.appendChild(li);
+  });
+
+  document.getElementById("total").innerText = total;
+localStorage.setItem("cart", JSON.stringify(cart));
+} 
+
+
+
+function add(price, name){
+  cart.push({name, price});
+  updateCartUI();
+}
+
+function addPizza(btn){
+  let box = btn.parentElement;
+
+  let base = parseInt(box.getAttribute("data-price"));
+  let sizeExtra = parseInt(box.querySelector(".pizza-size").value);
+
+  let sizeText =
+    sizeExtra == 0 ? "Regular" :
+    sizeExtra == 50 ? "Medium" : "Large";
+
+  let finalPrice = base + sizeExtra;
+  let name = box.querySelector("h4").innerText;
+
+  cart.push({
+    name: name + " (" + sizeText + ")",
+    price: finalPrice
+  });
+
+  updateCartUI();
+}
+
+function removeItem(index){
+  cart.splice(index, 1);
+  updateCartUI();
+}
+function saveOrderPopup(){
+
+  if(cart.length === 0){
+    alert("Please add items first 🛒");
+    return;
+  }
+
+  let orderHistory =
+    JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+  let totalAmount = 0;
+  cart.forEach(i => totalAmount += i.price);
+
+  let newOrder = {
+    user: localStorage.getItem("userName") || "Guest",
+    mobile: localStorage.getItem("currentUser") || "",
+    address: localStorage.getItem("userAddress") || "",
+    date: new Date().toISOString(),
+    time: new Date().toLocaleString(),
+    items: [...cart],
+    total: totalAmount
+  };
+
+  // ✅ REAL FIX
+  orderHistory.unshift(newOrder); // ⭐ latest order always first
+
+
+  localStorage.setItem(
+    "orderHistory",
+    JSON.stringify(orderHistory)
+  );
+
+  orderSaved = true;
+
+document.getElementById("checkoutModal").style.display = "flex";
+
+  let btn = document.querySelector(".order-btn");
+  if(btn){
+    btn.style.background = "#00c853";
+    btn.innerText = "Place Order ✔";
+  }
+}
+
+function searchFood(value){
+  value = value.toLowerCase();
+  let foods = document.querySelectorAll(".food");
+    let matched = [];
+
+
+  foods.forEach(food => {
+    let name = food.querySelector("h4").innerText.toLowerCase();
+    if(name.includes(value)){
+      food.style.display = "block";
+      matched.push(food);
+    } else {
+      food.style.display = "none";
+    }
+  });
+
+  // ✅ Agar search hua hai to 3 random items bhi show karo
+  if(value !== ""){
+    let allFoods = Array.from(foods);
+
+    let randomItems = allFoods
+      .sort(() => 0.5 - Math.random())
+      .slice(0,3);
+
+    randomItems.forEach(item => {
+      item.style.display = "block";
+    });
+  }
+}
+
+function filterFood(category){
+  let foods = document.querySelectorAll(".food");
+
+  foods.forEach(food => {
+    if(category === "all"){
+      food.style.display = "block";
+    } else {
+      food.style.display =
+        food.classList.contains(category) ? "block" : "none";
+    }
+  });
+}
+let slides = document.querySelectorAll(".slide");
+let index = 0;
+
+function showSlide() {
+  slides.forEach(slide => slide.style.display = "none");
+
+  slides[index].style.display = "block";
+
+  // agar video hai to play karo
+  if (slides[index].tagName === "VIDEO") {
+    slides[index].currentTime = 0;
+    slides[index].play();
+  }
+
+  index = (index + 1) % slides.length;
+}
+
+showSlide();
+setInterval(showSlide, 3000);
+function showReceipt(){
+  startConfetti();
+  if(orderSaved === false){
+    alert("⚠ Please save order first");
+    return;
+  }
+
+  let itemsHTML = "";
+  let total = 0;
+
+  cart.forEach(item => {
+    itemsHTML += `<p>${item.name} - ₹${item.price}</p>`;
+    total += item.price;
+  });
+
+  document.getElementById("receiptItems").innerHTML = itemsHTML;
+  document.getElementById("receiptTotal").innerText = total;
+
+  document.getElementById("receiptPopup").style.display = "flex";
+    // 🔥 clear cart after placing order
+  cart = [];
+  total = 0;
+  orderSaved = false;
+
+  updateCartUI();
+
+}
+function closeSavePopup() {
+  document.getElementById("savePopup").style.display = "none";
+}
+function closeReceipt() {
+  document.getElementById("receiptPopup").style.display = "none";
+  document.getElementById("receiptOverlay").style.display = "none";
+}
+function goSearch(){
+  let value = document.getElementById("searchInput").value;
+
+  if(value === ""){
+    alert("Please search something");
+    return;
+  }
+
+  window.location.href = "search.html?food=" + value;
+}
+
+function openContact(){
+  document.getElementById("contactPopup").style.display="flex";
+}
+
+function closeContact(){
+  document.getElementById("contactPopup").style.display="none";
+}
+function openOrders(){
+
+  let orders =
+    JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+  // ✅ date wise sorting (latest first)
+  orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  let box = document.getElementById("orderHistory");
+
+  if(orders.length === 0){
+    box.innerHTML = "<p>No previous orders found 😔</p>";
+    document.getElementById("ordersPopup").style.display = "flex";
+    return;
+  }
+let html = "";
+
+orders.forEach((order, i) => {
+
+  let isLatest = i === 0; // ✅ now this WORKS
+
+  html += `
+    <div style="
+      border:2px solid ${isLatest ? '#ff2e63' : '#ddd'};
+      padding:14px;
+      border-radius:14px;
+      margin-bottom:18px;
+      background:${isLatest ? '#fff0f5' : '#fff'};
+    ">
+      <h4>${isLatest ? '🧾 QuickBite Receipt (Current Order)' : '🧾 Order ' + (i + 1)}</h4>
+      <p style="font-size:12px;color:gray;">
+        📅 ${new Date(order.date).toLocaleString()}
+      </p>
+
+      <div style="margin-top:8px">
+        ${buildReceiptHTML(order)}
+      </div>
+    </div>
+  `;
+});
+
+
+  box.innerHTML = html;
+  document.getElementById("ordersPopup").style.display = "flex";
+}
+
+function closeOrders(){
+  document.getElementById("ordersPopup").style.display = "none";
+}
+function goMenu(){
+  let menuSection = document.getElementById("Menu");
+  let y = menuSection.getBoundingClientRect().top + window.pageYOffset - 90;
+
+  window.scrollTo({
+    top: y,
+    behavior: "smooth"
+  });
+}
+function startConfetti() {
+  for (let i = 0; i < 80; i++) {
+    let confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.background =
+      ["#ff2e63", "#ffc107", "#00c853", "#2196f3", "#9c27b0"]
+      [Math.floor(Math.random() * 5)];
+
+    confetti.style.animationDuration =
+      Math.random() * 2 + 2 + "s";
+
+    document.body.appendChild(confetti);
+
+    setTimeout(() => {
+      confetti.remove();
+    }, 3000);
+  }
+}
+function placeOrder(){
+  // show tracking section
+  document.getElementById("trackingSection").style.display="block";
+
+  let steps = document.querySelectorAll(".step");
+  let text = document.getElementById("trackText");
+
+  setTimeout(()=>{
+    steps[1].classList.add("active");
+    text.innerText="🚴 Rider is on the way";
+  },3000);
+
+  setTimeout(()=>{
+    steps[2].classList.add("active");
+    text.innerText="🏠 Order Delivered Successfully";
+  },6000);
+}
+/* ================= ADMIN FOOD LOADER ================= */
+
+let adminFoods = JSON.parse(localStorage.getItem("foods")) || [];
+let grid = document.querySelector(".food-grid");
+
+adminFoods.forEach(f=>{
+  let div = document.createElement("div");
+  div.className = "food " + f.category;
+
+  div.innerHTML = `
+    <img src="${f.img}">
+    <h4>${f.name}</h4>
+    <p>₹${f.price}</p>
+    <button onclick="addWithImage('${f.name}',${f.price},'${f.img}')">Add</button>
+  `;
+
+  grid.appendChild(div);
+});
+
+function addWithImage(name, price, img){
+  cart.push({name, price, img});
+  updateCartUI();
+}
+let loginBtn = document.querySelector(".login");
+if(loginBtn){
+  loginBtn.addEventListener("click", function(e){
+    e.preventDefault();
+    document.getElementById("loginPopup").style.display = "flex";
+  });
+}
+
+
+function placeOrder() {
+
+  const username = document.getElementById("username").value;
+  const phone = document.getElementById("mobile").value;
+  const address = document.getElementById("address").value;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  let order = {
+    username: username,
+    phone: phone,
+    address: address,
+    items: cart.map(i => i.name).join(", "),
+    total: total
+  };
+
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders.push(order);
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  alert("Order placed successfully!");
+  localStorage.removeItem("cart");
+}
+
+// update
+function buildReceiptHTML(order){
+  let html = "";
+  order.items.forEach(item=>{
+    html += `<p>${item.name} - ₹${item.price}</p>`;
+  });
+  html += `<hr><b>Total: ₹${order.total}</b>`;
+  return html;
+}
+function confirmCheckout(){
+
+  if(cart.length === 0){
+    alert("⚠ Please add items first");
+    return;
+  }
+
+  let name = document.getElementById("checkoutName").value.trim();
+  let mobile = document.getElementById("checkoutMobile") .value.trim();
+  let address = document.getElementById("checkoutAddress").value.trim();
+  let payment = document.querySelector('input[name="payment"]:checked');
+
+  // ✅ REQUIRED VALIDATION
+  if(name === "" || mobile === "" || address === ""){
+    alert("⚠ Please fill all details before confirming order");
+    return;
+  }
+
+  if(mobile.length !== 10 || isNaN(mobile)){
+    alert("⚠ Please enter valid 10 digit mobile number");
+    return;
+  }
+
+// ⭐ UPI VALIDATION
+if(payment.value === "upi"){
+  let upiChecked = document.getElementById("upiPaid").checked;
+
+  if(!upiChecked){
+    alert("⚠ Please complete UPI payment before confirming order");
+    return;
+  }
+}
+  let order = {
+    username: name,
+    address: address,
+    mobile: mobile,
+    total: total,
+    date: new Date(),
+    items: cart
+  };
+
+  let orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
+  orders.unshift(order);
+  localStorage.setItem("orderHistory", JSON.stringify(orders));
+
+  document.getElementById("checkoutModal").style.display = "none";
+
+  showReceipt();
+
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartUI();
+
+  alert("✅ Order Placed Successfully");
+  startDeliveryTracking();
+}
+
+// function confirmCheckout(){
+
+//   if(cart.length === 0){
+//     alert("⚠ Please save order first");
+//     return;
+//   }
+
+//   let name = document.getElementById("checkoutName").value || "Guest";
+//   let mobile = document.getElementById("checkoutMobile").value || "0000000000";
+//   let address = document.getElementById("checkoutAddress").value || "Not provided";
+
+//   let order = {
+//     username: name,
+//     address: address,
+//     mobile: mobile,
+//     total: total,
+//     date: new Date(),
+//     items: cart
+//   };
+
+//   let orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
+//   orders.unshift(order);
+//   localStorage.setItem("orderHistory", JSON.stringify(orders));
+
+//   // close checkout form
+//   document.getElementById("checkoutModal").style.display = "none";
+
+//   // show receipt ⭐
+//   showReceipt();
+
+//   // clear cart
+//   cart = [];
+//   localStorage.removeItem("cart");
+//   updateCartUI();
+
+//   alert("✅ Order Placed Successfully");
+// }
+
+function startDeliveryTracking(){
+
+  document.getElementById("deliveryBox").style.display = "block";
+
+  let bike = document.getElementById("bike");
+  let progressBar = document.getElementById("progressBar");
+  let countdown = document.getElementById("countdown");
+  let doneMsg = document.getElementById("doneMsg");
+
+  let totalTime = 30 * 60; // 30 minutes
+  let currentTime = totalTime;
+
+  let roadWidth = 300;
+
+  let interval = setInterval(function(){
+
+    currentTime--;
+
+    let minutes = Math.floor(currentTime / 60);
+    let seconds = currentTime % 60;
+
+    countdown.innerText =
+      (minutes < 10 ? "0" : "") + minutes + ":" +
+      (seconds < 10 ? "0" : "") + seconds;
+
+    let percent = (totalTime - currentTime) / totalTime * 100;
+
+    progressBar.style.width = percent + "%";
+    bike.style.left = percent * 3 + "px";
+
+    if(currentTime <= 0){
+      clearInterval(interval);
+      doneMsg.style.display = "block";
+    }
+
+  },1000);
+}
+function toggleUPI() {
+    let selected = document.querySelector('input[name="payment"]:checked');
+    let scanner = document.getElementById("scannerBox");
+
+    if (!selected) return;
+
+    if (selected.value === "upi") {
+        scanner.style.display = "block";
+    } else {
+        scanner.style.display = "none";
+    }
+}
+
+const upiRadio = document.getElementById("upi");
+const codRadio = document.getElementById("cod");
+const confirmBtn = document.getElementById("confirmBtn");
+const paymentDone = document.getElem
+entById("paymentDone");
+const upiSection = document.getElementById("upiSection");
+
+// Payment method change
+upiRadio.addEventListener("change", function(){
+    upiSection.style.display = "block";
+    confirmBtn.disabled = true;
+});
+
+codRadio.addEventListener("change", function(){
+    upiSection.style.display = "none";
+    confirmBtn.disabled = false;
+});
+
+// Checkbox check
+paymentDone.addEventListener("change", function(){
+    if(paymentDone.checked){
+        confirmBtn.disabled = false;
+    } else {
+        confirmBtn.disabled = true;
+    }
+});
+
+function setRating(rating){
+  selectedRating = rating;
+  let stars = document.querySelectorAll(".stars span");
+
+  stars.forEach((star,index)=>{
+    star.classList.remove("active");
+    if(index < rating){
+      star.classList.add("active");
+    }
+  });
+}
+
+function submitReview(){
+  let comment = document.getElementById("comment").value;
+
+  if(selectedRating === 0 || comment === ""){
+    alert("Please give rating and comment");
+    return;
+  }
+
+  let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+  reviews.push({
+    rating: selectedRating,
+    comment: comment
+  });
+
+  localStorage.setItem("reviews", JSON.stringify(reviews));
+
+  alert("Review Submitted Successfully!");
+
+  document.getElementById("comment").value="";
+  selectedRating = 0;
+  document.querySelectorAll(".stars span").forEach(s=>s.classList.remove("active"));
+}
+function setRating(rating){
+  selectedRating = rating;
+
+  let stars = document.querySelectorAll(".stars span");
+
+  stars.forEach((star, index)=>{
+    if(index < rating){
+      star.classList.add("active");
+    } else {
+      star.classList.remove("active");
+    }
+  });
+}
+function submitReview(){
+
+  let comment = document.getElementById("comment").value.trim();
+
+  if(selectedRating === 0){
+    alert("⭐ Please select rating first");
+    return;
+  }
+
+  if(comment === ""){
+    alert("✍ Please write a comment");
+    return;
+  }
+
+  let review = {
+    user: localStorage.getItem("userName") || "Guest",
+    rating: selectedRating,
+    comment: comment,
+    time: new Date().toLocaleString()
+  };
+
+  let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+  reviews.unshift(review);
+
+  localStorage.setItem("reviews", JSON.stringify(reviews));
+
+  alert("🎉 Thank you for your review!");
+
+  // reset
+  selectedRating = 0;
+  document.getElementById("comment").value = "";
+  document.querySelectorAll(".stars span").forEach(s => s.classList.remove("active"));
+}
+</script>
+</body>
+</html>

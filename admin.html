@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI;
+  background:#f6f7fb;
+}
+
+/* LOGIN */
+#loginBox{
+  width:350px;
+  margin:80px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 0 15px rgba(0,0,0,0.2);
+}
+input, button{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+}
+button{
+  background:#ff2e63;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* DASHBOARD */
+#dashboard{
+  display:none;
+}
+
+.topbar{
+  background:#fff;
+  padding:20px;
+  display:flex;
+  gap:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.topbar button{
+  width:auto;
+  padding:14px 28px;
+  font-size:16px;
+  font-weight:600;
+  border-radius:25px;
+}
+.topbar button:hover{
+  transform:scale(1.05);
+}
+
+.section{
+  display:none;
+  max-width:900px;
+  margin:25px auto;
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 0 12px rgba(0,0,0,0.1);
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  background:#f1f1f1;
+  padding:8px;
+  margin-top:6px;
+  border-radius:6px;
+}
+
+.order{
+  border-bottom:1px solid #ddd;
+  padding:12px 0;
+}
+.order{
+  display:grid;
+  grid-template-columns: 1.2fr 2fr 1.2fr 0.8fr;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  margin-bottom:10px;
+  background:#f9f9f9;
+  border-radius:10px;
+  font-size:14px;
+}
+
+.order b{
+  font-size:15px;
+}
+
+.order span{
+  color:#555;
+}
+.order{
+  display:grid;
+  grid-template-columns: 1.2fr 2fr 1.2fr 1.4fr 0.8fr;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  margin-bottom:10px;
+  background:#f9f9f9;
+  border-radius:10px;
+  font-size:14px;
+}
+
+.order small{
+  color:#777;
+  font-size:12px;
+}
+body{
+  background: linear-gradient(rgba(255,255,255,0.55),
+              rgba(255,255,255,0.55)),
+              url("images/bg-light.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <h2>🔐 Admin Login</h2>
+  <input id="aid" placeholder="Admin ID">
+  <input id="apass" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+
+  <div class="topbar">
+    <button onclick="goBack()" class="back-btn">⬅ Back</button>
+    <button onclick="showSection('manage')">Manage Food</button>
+    <button onclick="showSection('orders')">Orders</button>
+    <button onclick="showSection('sales')">Total Sales</button>
+  </div>
+
+  <!-- MANAGE FOOD -->
+  <div class="section" id="manage">
+    <h3>🍕 Manage Food</h3>
+    <input id="name" placeholder="Food Name">
+    <input id="price" placeholder="Price">
+    <input id="img" placeholder="Image name">
+    <input id="cat" placeholder="Category">
+    <button onclick="addFood()">Add Item</button>
+    <div id="list"></div>
+  </div>
+
+  <!-- ORDERS -->
+  <!-- ORDERS -->
+<div class="section" id="orders">
+  <h3>📦 User Orders</h3>
+
+  <!-- 🔹 ORDER TABLE HEADER (ADD HERE) -->
+  <div class="order" style="font-weight:700;background:#ffe6ec">
+    <div>User</div>
+    <div>Address</div>
+    <div>Mobile</div>
+    <div>Date / Time</div>
+    <div>Total</div>
+  </div>
+
+  <div id="ordersList"></div>
+</div>
+
+
+  <!-- SALES -->
+  <div class="section" id="sales">
+    <h3>💰 Total Sales</h3>
+      <input type="date" id="salesDate"
+    style="padding:10px;border-radius:8px;border:1px solid #ccc;"
+    onchange="showSalesByDate()">
+
+    <h2 id="totalSales">₹0</h2>
+  </div>
+
+<script>
+const ADMIN_ID = "admin";
+const ADMIN_PASS = "1234";
+
+let foods = JSON.parse(localStorage.getItem("foods")) || [];
+let orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+function login(){
+  if(aid.value === ADMIN_ID && apass.value === ADMIN_PASS){
+    loginBox.style.display = "none";
+    dashboard.style.display = "block";
+    showSection('manage');
+    showFoods();
+    showOrders();
+    showSales();
+    showUsers();
+    setTodayDate();
+  } else {
+    alert("Wrong login");
+  }
+}
+loadUserInbox();
+
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+
+/* FOOD */
+function saveFoods(){
+  localStorage.setItem("foods",JSON.stringify(foods));
+  showFoods();
+}
+
+function addFood(){
+  let f={
+    name:name.value,
+    price:Number(price.value),
+    img:"images/"+img.value,
+    category:cat.value
+  };
+  if(!f.name || !f.price || !img.value){
+    alert("Fill all fields");
+    return;
+  }
+  foods.push(f);
+  saveFoods();
+  name.value = price.value = img.value = cat.value = "";
+}
+
+function del(i){
+  foods.splice(i,1);
+  saveFoods();
+}
+
+function showFoods(){
+  list.innerHTML = foods.map((f,i)=>`
+    <div class="item">
+      ${f.name} ₹${f.price}
+      <button onclick="del(${i})">❌</button>
+    </div>
+  `).join("");
+}
+
+/* ORDERS (FIXED – NO undefined) */
+function showOrders(){
+  orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+  ordersList.innerHTML = orders.length
+    ? orders.map(o=>{
+
+        let d = new Date(o.date);
+        let dateStr = d.toLocaleDateString();
+        let timeStr = d.toLocaleTimeString();
+
+        return `
+          <div class="order">
+            <b>${o.username || o.user || "Guest"}</b>
+            <span>📍 ${o.address}</span>
+            <span>📞 ${o.mobile}</span>
+            <small>📅 ${dateStr}<br>⏰ ${timeStr}</small>
+            <b>₹${o.total}</b>
+          </div>
+        `;
+      }).join("")
+    : "No orders yet";
+}
+
+
+/* SALES (AUTO UPDATE) */
+function showSalesByDate(){
+  let selectedDate = document.getElementById("salesDate").value;
+  let orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+  let total = 0;
+
+  orders.forEach(o=>{
+    if(!o.date) return;
+
+    // 🔥 LOCAL DATE (timezone safe)
+    let orderDate = new Date(o.date).toLocaleDateString('en-CA');
+
+    if(orderDate === selectedDate){
+      total += Number(o.total);
+    }
+  });
+
+  totalSales.innerText = "₹" + total;
+}
+
+/* USERS (FIXED) */
+function showUsers(){
+  orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
+  let map = {};
+
+  orders.forEach(o=>{
+    map[o.name] = (map[o.name] || 0) + Number(o.total);
+  });
+
+  usersList.innerHTML = Object.keys(map).length
+    ? Object.keys(map).map(u=>`
+      <div>${u} – ₹${map[u]}</div>
+    `).join("")
+    : "No users";
+}
+function setTodayDate(){
+  let today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+  document.getElementById("salesDate").value = today;
+  showSalesByDate();
+}
+function openUsers(){
+  showSection('users');
+  loadUserInbox();
+}
+function loadUserInbox(){
+  let inbox = JSON.parse(localStorage.getItem("userInbox")) || [];
+  let unread = inbox.filter(i => !i.read).length;
+
+  let badge = document.getElementById("userCount");
+
+  if(unread > 0){
+    badge.style.display = "inline-block";
+    badge.innerText = unread;
+  } else {
+    badge.style.display = "none";
+  }
+
+  let box = document.getElementById("usersList");
+
+  if(inbox.length === 0){
+    box.innerHTML = "<p>No user activity yet</p>";
+    return;
+  }
+
+  box.innerHTML = inbox.map((u,i)=>`
+    <div class="order">
+      <b>👤 ${u.name}</b>
+      <span>📞 ${u.mobile}</span>
+      <span>📍 ${u.address}</span>
+      <small>🕒 ${u.time}</small>
+      <button onclick="markUserRead(${i})">Mark Read</button>
+    </div>
+  `).join("");
+}
+function markUserRead(index){
+  let inbox = JSON.parse(localStorage.getItem("userInbox")) || [];
+  inbox[index].read = true;
+  localStorage.setItem("userInbox", JSON.stringify(inbox));
+  loadUserInbox();
+}
+function goBack(){
+    window.history.back();
+}
+
+</script>
+
+</body>
+</html>
