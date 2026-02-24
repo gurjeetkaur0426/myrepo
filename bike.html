@@ -12,26 +12,6 @@ body{
   font-family:'Segoe UI',sans-serif;
 }
 
-/* Box */
-  .delivery-box{
-  position:fixed;
-  top:30px;
-  right:30px;
-  width:360px;
-  background:#fff;
-  border-radius:15px;
-  padding:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
-
-  position:relative;   /* ⭐ ADD THIS */
-}
-
-
-.delivery-box h3{
-  margin:0;
-  color:#ff2e63;
-}
-
 .time{
   margin-top:8px;
   font-weight:bold;
@@ -79,31 +59,32 @@ body{
   margin-top:12px;
   display:none;
 }
-  .delivery-box{
-  position:fixed;
-  top:30px;
-  right:30px;
+ .delivery-box{
+  position:fixed !important;
+  top:20px;
+  right:20px;
   width:360px;
   background:#fff;
   border-radius:15px;
   padding:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
-  position:relative;
-  z-index:9999;
+  box-shadow:0 15px 40px rgba(0,0,0,0.25);
+  z-index:999999;   /* ⭐ VERY IMPORTANT */
 }
 
 .delivery-close{
   position:absolute;
-  top:10px;
-  right:10px;
+  top:8px;
+  right:8px;
+  width:28px;
+  height:28px;
   border:none;
   background:#ff2e63;
-  color:white;
-  font-size:16px;
-  width:30px;
-  height:30px;
+  color:#fff;
+  font-size:18px;
   border-radius:50%;
   cursor:pointer;
+  z-index:10; /* ⭐ bring above content */
+  line-height:28px;
 }
 </style>
 </head>
@@ -185,5 +166,6 @@ function showDelivery(){
 
 </body>
 </html>
+
 
 
