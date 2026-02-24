@@ -7,18 +7,48 @@
 <style>
 body{
   margin:0;
-  height:100vh;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
   font-family:'Segoe UI',sans-serif;
 }
 
+/* ✅ TRUE FLOATING BOX */
+.delivery-box{
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  transform: none !important;
+  width: 360px;
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.25);
+  z-index: 2147483647; /* MAX LAYER */
+}
+
+/* CLOSE BUTTON OUTSIDE FLOAT */
+.delivery-close{
+  position:absolute;
+  top:-12px;
+  right:-12px;
+  width:34px;
+  height:34px;
+  border:none;
+  background:#ff2e63;
+  color:#fff;
+  font-size:18px;
+  border-radius:50%;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* TEXT */
 .time{
   margin-top:8px;
   font-weight:bold;
   color:#555;
 }
 
-/* Road */
+/* ROAD */
 .road{
   width:100%;
   height:50px;
@@ -29,14 +59,14 @@ body{
   overflow:hidden;
 }
 
-/* Moving Bike */
+/* BIKE */
 .bike{
   position:absolute;
   font-size:28px;
   left:0;
 }
 
-/* Progress */
+/* PROGRESS */
 .progress{
   width:100%;
   height:8px;
@@ -59,33 +89,6 @@ body{
   margin-top:12px;
   display:none;
 }
- .delivery-box{
-  position:fixed !important;
-  top:20px;
-  right:20px;
-  width:360px;
-  background:#fff;
-  border-radius:15px;
-  padding:20px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.25);
-  z-index:999999;   /* ⭐ VERY IMPORTANT */
-}
-
-.delivery-close{
-  position:absolute;
-  top:8px;
-  right:8px;
-  width:28px;
-  height:28px;
-  border:none;
-  background:#ff2e63;
-  color:#fff;
-  font-size:18px;
-  border-radius:50%;
-  cursor:pointer;
-  z-index:10; /* ⭐ bring above content */
-  line-height:28px;
-}
 </style>
 </head>
 
@@ -93,7 +96,6 @@ body{
 
 <div class="delivery-box" id="deliveryBox">
 
-  <!-- ❌ CLOSE BUTTON -->
   <button class="delivery-close" onclick="closeDelivery()">✖</button>
 
   <h3>📦 Order Confirmed!</h3>
@@ -117,33 +119,24 @@ body{
 </div>
 
 <script>
-
-let totalTime = 1800; // 30 minutes in seconds
+let totalTime = 1800;
 let timeLeft = totalTime;
 
-let bike = document.getElementById("bike");
-let progressBar = document.getElementById("progressBar");
-let roadWidth = 300; // movement area width approx
+const bike = document.getElementById("bike");
+const progressBar = document.getElementById("progressBar");
 
-let timer = setInterval(function(){
+const timer = setInterval(function(){
 
   let minutes = Math.floor(timeLeft / 60);
   let seconds = timeLeft % 60;
-
-  if(seconds < 10){
-    seconds = "0" + seconds;
-  }
+  if(seconds < 10) seconds = "0" + seconds;
 
   document.getElementById("countdown").innerText =
     minutes + ":" + seconds;
 
-  // Percentage completed
   let percent = ((totalTime - timeLeft) / totalTime) * 100;
 
-  // Move bike
   bike.style.left = (percent * 3) + "px";
-
-  // Progress bar
   progressBar.style.width = percent + "%";
 
   timeLeft--;
@@ -156,9 +149,11 @@ let timer = setInterval(function(){
   }
 
 },1000);
+
 function closeDelivery(){
   document.getElementById("deliveryBox").style.display = "none";
 }
+
 function showDelivery(){
   document.getElementById("deliveryBox").style.display = "block";
 }
@@ -166,6 +161,3 @@ function showDelivery(){
 
 </body>
 </html>
-
-
-
