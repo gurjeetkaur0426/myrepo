@@ -103,13 +103,82 @@ body{
 .delivery-box.minimized #doneMsg{
   display:none;
 }
+  .delivery-box{
+  position: fixed !important;
+  top: 90px;
+  right: 20px;
+  width: 360px;
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.25);
+  z-index:999999;
+  transition:0.3s;
+}
+
+.delivery-close{
+  position:absolute;
+  top:-10px;
+  right:-10px;
+  width:32px;
+  height:32px;
+  border:none;
+  background:#ff2e63;
+  color:#fff;
+  font-size:16px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.time{font-weight:bold;margin-top:8px}
+
+.road{
+  width:100%;
+  height:50px;
+  background:#eee;
+  border-radius:30px;
+  margin-top:15px;
+  position:relative;
+  overflow:hidden;
+}
+
+.bike{position:absolute;font-size:28px}
+
+.progress{
+  width:100%;
+  height:8px;
+  background:#ddd;
+  border-radius:10px;
+  margin-top:15px;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#ff2e63;
+}
+
+/* MINIMIZE MODE */
+.delivery-box.min{
+  height:55px;
+  overflow:hidden;
+  padding:10px 20px;
+}
+
+.delivery-box.min .road,
+.delivery-box.min .progress,
+.delivery-box.min .time,
+.delivery-box.min #doneMsg{
+  display:none;
+}
 </style>
 </head>
 
 <body>
 
-<div class="delivery-box" id="deliveryBox" onclick="restoreBox(event)">
-<button class="delivery-close" onclick="toggleDelivery(event)">✖</button>
+<!-- DELIVERY POPUP -->
+<div id="deliveryBox" class="delivery-box">
+  <button class="delivery-close" onclick="deliveryMinimize(event)">✖</button>
 
   <h3>📦 Order Confirmed!</h3>
   Delivery Partner is on the way
@@ -132,59 +201,41 @@ body{
 </div>
 
 <script>
-let totalTime = 1800;
-let timeLeft = totalTime;
+// TIMER (safe version)
+(function(){
+  let totalTime = 1800;
+  let timeLeft = totalTime;
 
-const bike = document.getElementById("bike");
-const progressBar = document.getElementById("progressBar");
+  const bike = document.getElementById("bike");
+  const bar = document.getElementById("progressBar");
 
-const timer = setInterval(function(){
+  if(!bike) return; // prevents errors in other pages
 
-  let minutes = Math.floor(timeLeft / 60);
-  let seconds = timeLeft % 60;
-  if(seconds < 10) seconds = "0" + seconds;
+  setInterval(()=>{
+    let m = Math.floor(timeLeft/60);
+    let s = timeLeft%60;
+    if(s<10) s="0"+s;
 
-  document.getElementById("countdown").innerText =
-    minutes + ":" + seconds;
+    const cd = document.getElementById("countdown");
+    if(cd) cd.innerText = m+":"+s;
 
-  let percent = ((totalTime - timeLeft) / totalTime) * 100;
+    let percent = ((totalTime-timeLeft)/totalTime)*100;
+    bike.style.left = (percent*3)+"px";
+    bar.style.width = percent+"%";
 
-  bike.style.left = (percent * 3) + "px";
-  progressBar.style.width = percent + "%";
+    timeLeft--;
+  },1000);
+})();
 
-  timeLeft--;
-
-  if(timeLeft < 0){
-    clearInterval(timer);
-    bike.style.left = "300px";
-    progressBar.style.width = "100%";
-    document.getElementById("doneMsg").style.display="block";
-  }
-
-},1000);
-
-/* MINIMIZE */
-function toggleDelivery(e){
-  e.stopPropagation(); // important
-  document.getElementById("deliveryBox").classList.add("minimized");
-}
-
-/* RESTORE WHEN CLICK BOX */
-function restoreBox(e){
-  const box = document.getElementById("deliveryBox");
-  if(box.classList.contains("minimized")){
-    box.classList.remove("minimized");
-  }
-}
-  <script>
-function toggleDelivery(e){
-  e.stopPropagation(); // prevents parent click
-  const box = document.getElementById("deliveryBox");
-  box.classList.toggle("minimized");
+// 🔴 MINIMIZE BUTTON (CONFLICT FREE)
+function deliveryMinimize(e){
+  e.stopPropagation();
+  document.getElementById("deliveryBox").classList.toggle("min");
 }
 </script>
-</script>
+
 
 </body>
 </html>
+
 
