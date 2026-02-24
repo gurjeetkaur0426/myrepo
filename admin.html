@@ -194,9 +194,12 @@ let foods = JSON.parse(localStorage.getItem("foods")) || [];
 let orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
 
 function login(){
-  if(aid.value === ADMIN_ID && apass.value === ADMIN_PASS){
-    loginBox.style.display = "none";
-    dashboard.style.display = "block";
+  const aidInput = document.getElementById("aid");
+  const passInput = document.getElementById("apass");
+
+  if(aidInput.value === ADMIN_ID && passInput.value === ADMIN_PASS){
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
     showSection('manage');
     showFoods();
     showOrders();
@@ -207,8 +210,6 @@ function login(){
     alert("Wrong login");
   }
 }
-loadUserInbox();
-
 function showSection(id){
   document.querySelectorAll(".section").forEach(s=>s.style.display="none");
   document.getElementById(id).style.display="block";
@@ -222,10 +223,15 @@ function saveFoods(){
 
 function addFood(){
 
-  const foodName = name.value.trim();
-  const foodPrice = price.value.trim();
-  const foodImg = img.value.trim();
-  const foodCat = cat.value.trim();
+  const nameInput = document.getElementById("name");
+  const priceInput = document.getElementById("price");
+  const imgInput = document.getElementById("img");
+  const catInput = document.getElementById("cat");
+
+  const foodName = nameInput.value.trim();
+  const foodPrice = priceInput.value.trim();
+  const foodImg = imgInput.value.trim();
+  const foodCat = catInput.value.trim();
 
   if(!foodName || !foodPrice || !foodImg || !foodCat){
     alert("Fill all fields");
@@ -235,19 +241,19 @@ function addFood(){
   let f = {
     name: foodName,
     price: Number(foodPrice),
-    img: foodImg,   // ⭐ IMPORTANT: no images/ prefix
+    img: foodImg,
     category: foodCat
   };
 
   foods.push(f);
   saveFoods();
 
-  name.value = "";
-  price.value = "";
-  img.value = "";
-  cat.value = "";
+  nameInput.value = "";
+  priceInput.value = "";
+  imgInput.value = "";
+  catInput.value = "";
 
-  alert("Item added ✅");
+  alert("Item Added ✅");
 }
 
 function del(i){
@@ -256,6 +262,8 @@ function del(i){
 }
 
 function showFoods(){
+  const list = document.getElementById("list");
+
   list.innerHTML = foods.map((f,i)=>`
     <div class="item">
       ${f.name} ₹${f.price}
@@ -267,10 +275,10 @@ function showFoods(){
 /* ORDERS (FIXED – NO undefined) */
 function showOrders(){
   orders = JSON.parse(localStorage.getItem("orderHistory")) || [];
+  const ordersList = document.getElementById("ordersList");
 
   ordersList.innerHTML = orders.length
     ? orders.map(o=>{
-
         let d = new Date(o.date);
         let dateStr = d.toLocaleDateString();
         let timeStr = d.toLocaleTimeString();
@@ -378,3 +386,4 @@ function goBack(){
 
 </body>
 </html>
+
