@@ -76,12 +76,30 @@ body{
   margin-top:12px;
   display:none;
 }
+.delivery-close{
+  position:absolute;
+  top:8px;
+  right:10px;
+  border:none;
+  background:#ff2e63;
+  color:white;
+  font-size:18px;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:100001;
+}
 </style>
 </head>
 
 <body>
 
-<div class="delivery-box">
+<div class="delivery-box" id="deliveryBox" style="display:none;">
+
+  <!-- ❌ CLOSE BUTTON -->
+  <button class="delivery-close" onclick="closeDelivery()">✖</button>
+
   <h3>📦 Order Confirmed!</h3>
   Delivery Partner is on the way
 
@@ -142,6 +160,9 @@ let timer = setInterval(function(){
   }
 
 },1000);
+function closeDelivery(){
+  document.getElementById("deliveryBox").style.display = "none";
+}
 
 </script>
 
