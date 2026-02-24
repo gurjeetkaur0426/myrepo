@@ -10,22 +10,21 @@ body{
   font-family:'Segoe UI',sans-serif;
 }
 
-/* ✅ TRUE FLOATING BOX */
+/* FLOATING BOX */
 .delivery-box{
-  position: fixed !important;
-  top: 20px !important;
-  right: 20px !important;
-  left: auto !important;
-  transform: none !important;
+  position: fixed;
+  top: 20px;
+  right: 20px;
   width: 360px;
   background:#fff;
   border-radius:15px;
   padding:20px;
   box-shadow:0 15px 40px rgba(0,0,0,0.25);
-  z-index: 2147483647; /* MAX LAYER */
+  z-index: 9999;
+  transition: 0.3s ease;
 }
 
-/* CLOSE BUTTON OUTSIDE FLOAT */
+/* CLOSE BUTTON */
 .delivery-close{
   position:absolute;
   top:-12px;
@@ -38,7 +37,6 @@ body{
   font-size:18px;
   border-radius:50%;
   cursor:pointer;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
 }
 
 /* TEXT */
@@ -89,12 +87,13 @@ body{
   margin-top:12px;
   display:none;
 }
-  /* Minimized state */
+
+/* MINIMIZED MODE */
 .delivery-box.minimized{
-  height: 50px;
-  overflow: hidden;
-  cursor: pointer;
-  padding: 10px 20px;
+  height:55px;
+  overflow:hidden;
+  padding:10px 20px;
+  cursor:pointer;
 }
 
 /* Hide content when minimized */
@@ -102,16 +101,16 @@ body{
 .delivery-box.minimized .progress,
 .delivery-box.minimized .time,
 .delivery-box.minimized #doneMsg{
-  display: none;
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="delivery-box" id="deliveryBox">
-<button class="delivery-close" onclick="toggleDelivery()">✖</button>
-  
+<div class="delivery-box" id="deliveryBox" onclick="restoreBox(event)">
+<button class="delivery-close" onclick="toggleDelivery(event)">✖</button>
+
   <h3>📦 Order Confirmed!</h3>
   Delivery Partner is on the way
 
@@ -164,15 +163,20 @@ const timer = setInterval(function(){
 
 },1000);
 
-function toggleDelivery(){
-  let box = document.getElementById("deliveryBox");
-  box.classList.toggle("minimized");
+/* MINIMIZE */
+function toggleDelivery(e){
+  e.stopPropagation(); // important
+  document.getElementById("deliveryBox").classList.add("minimized");
 }
-function showDelivery(){
-  document.getElementById("deliveryBox").style.display = "block";
+
+/* RESTORE WHEN CLICK BOX */
+function restoreBox(e){
+  const box = document.getElementById("deliveryBox");
+  if(box.classList.contains("minimized")){
+    box.classList.remove("minimized");
+  }
 }
 </script>
 
 </body>
 </html>
-
