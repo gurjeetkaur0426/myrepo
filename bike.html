@@ -13,7 +13,7 @@ body{
 }
 
 /* Box */
-.delivery-box{
+  .delivery-box{
   position:fixed;
   top:30px;
   right:30px;
@@ -22,7 +22,10 @@ body{
   border-radius:15px;
   padding:20px;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
+
+  position:relative;   /* ⭐ ADD THIS */
 }
+
 
 .delivery-box h3{
   margin:0;
@@ -76,7 +79,20 @@ body{
   margin-top:12px;
   display:none;
 }
-  .delivery-close{
+  .delivery-box{
+  position:fixed;
+  top:30px;
+  right:30px;
+  width:360px;
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  position:relative;
+  z-index:9999;
+}
+
+.delivery-close{
   position:absolute;
   top:10px;
   right:10px;
@@ -88,29 +104,13 @@ body{
   height:30px;
   border-radius:50%;
   cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-  .delivery-box{
-  position:fixed;
-  top:30px;
-  right:30px;
-  width:360px;
-  background:#fff;
-  border-radius:15px;
-  padding:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
-
-  position:fixed;
 }
 </style>
 </head>
 
 <body>
 
-<div class="delivery-box" id="deliveryBox" style="display:none;">
+<div class="delivery-box" id="deliveryBox">
 
   <!-- ❌ CLOSE BUTTON -->
   <button class="delivery-close" onclick="closeDelivery()">✖</button>
@@ -178,9 +178,12 @@ let timer = setInterval(function(){
 function closeDelivery(){
   document.getElementById("deliveryBox").style.display = "none";
 }
-
+function showDelivery(){
+  document.getElementById("deliveryBox").style.display = "block";
+}
 </script>
 
 </body>
 </html>
+
 
