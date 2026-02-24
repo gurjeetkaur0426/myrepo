@@ -177,8 +177,10 @@ body{
 <body>
 
 <!-- DELIVERY POPUP -->
-<div id="deliveryBox" class="delivery-box">
-  <button class="delivery-close" onclick="deliveryMinimize(event)">✖</button>
+ 
+  <div class="delivery-box" id="deliveryBox" style="display:none; position:relative;">
+
+  <div onclick="closeDelivery()" style="position:absolute; right:10px; top:5px; cursor:pointer; font-size:20px;">✖</div>
 
   <h3>📦 Order Confirmed!</h3>
   Delivery Partner is on the way
@@ -232,10 +234,14 @@ function deliveryMinimize(e){
   e.stopPropagation();
   document.getElementById("deliveryBox").classList.toggle("min");
 }
+  function closeDelivery(){
+  document.getElementById("deliveryBox").style.display = "none";
+}
 </script>
 
 
 </body>
 </html>
+
 
 
