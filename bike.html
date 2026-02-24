@@ -176,7 +176,15 @@ function restoreBox(e){
     box.classList.remove("minimized");
   }
 }
+  <script>
+function toggleDelivery(e){
+  e.stopPropagation(); // prevents parent click
+  const box = document.getElementById("deliveryBox");
+  box.classList.toggle("minimized");
+}
+</script>
 </script>
 
 </body>
 </html>
+
