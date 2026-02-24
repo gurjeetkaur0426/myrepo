@@ -165,12 +165,7 @@ body{
   padding:10px 20px;
 }
 
-.delivery-box.min .road,
-.delivery-box.min .progress,
-.delivery-box.min .time,
-.delivery-box.min #doneMsg{
-  display:none;
-}
+
 </style>
 </head>
 
@@ -237,11 +232,15 @@ function deliveryMinimize(e){
   function closeDelivery(){
   document.getElementById("deliveryBox").style.display = "none";
 }
+  function toggleDelivery(){
+  document.getElementById("deliveryBox").classList.toggle("minimized");
+}
 </script>
 
 
 </body>
 </html>
+
 
 
 
