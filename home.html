@@ -971,14 +971,6 @@ textarea{
 .stars span:hover{
   transform: scale(1.2);
 }
-  .delivery-box{
-  animation: popIn 0.3s ease;
-}
-
-@keyframes popIn{
-  from{transform:scale(0.7); opacity:0;}
-  to{transform:scale(1); opacity:1;}
-}
 </style>
 </head>
 <!-- htmllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll -->
@@ -1356,7 +1348,7 @@ textarea{
 </div>
 
 <div class="food pizza" data-price="365">
-<img src="images/BBQ pizza.jpg">
+<img src="images/bbq pizza.jpg">
     <h4> BBQ Pizza</h4>
     <select class="pizza-size">
   <option value="0">Regular</option>
@@ -1482,22 +1474,9 @@ textarea{
   </div>
 </div>
 <!-- DELIVERY TRACKING -->
-  <div class="delivery-box" id="deliveryBox" style="display:none; position:relative;">
-
-  <!-- ❌ CLOSE BUTTON -->
-  <span onclick="closeDelivery()"
-        style="
-          position:absolute;
-          top:8px;
-          right:12px;
-          font-size:20px;
-          cursor:pointer;
-          font-weight:bold;
-        ">✖</span>
-
+<div class="delivery-box" id="deliveryBox" style="display:none;">
   <h3>📦 Order Confirmed!</h3>
   Delivery Partner is on the way
-
 
   <div class="time">
     Estimated Time: <span id="countdown">30:00</span>
@@ -2240,12 +2219,6 @@ function submitReview(){
   document.getElementById("comment").value = "";
   document.querySelectorAll(".stars span").forEach(s => s.classList.remove("active"));
 }
-  function closeDelivery(){
-  document.getElementById("deliveryBox").style.display = "none";
-}
 </script>
 </body>
-
 </html>
-
-
