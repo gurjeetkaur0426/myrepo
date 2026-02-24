@@ -221,19 +221,33 @@ function saveFoods(){
 }
 
 function addFood(){
-  let f={
-    name:name.value,
-    price:Number(price.value),
-    img:"images/"+img.value,
-    category:cat.value
-  };
-  if(!f.name || !f.price || !img.value){
+
+  const foodName = name.value.trim();
+  const foodPrice = price.value.trim();
+  const foodImg = img.value.trim();
+  const foodCat = cat.value.trim();
+
+  if(!foodName || !foodPrice || !foodImg || !foodCat){
     alert("Fill all fields");
     return;
   }
+
+  let f = {
+    name: foodName,
+    price: Number(foodPrice),
+    img: foodImg,   // ⭐ IMPORTANT: no images/ prefix
+    category: foodCat
+  };
+
   foods.push(f);
   saveFoods();
-  name.value = price.value = img.value = cat.value = "";
+
+  name.value = "";
+  price.value = "";
+  img.value = "";
+  cat.value = "";
+
+  alert("Item added ✅");
 }
 
 function del(i){
