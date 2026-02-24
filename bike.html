@@ -89,15 +89,29 @@ body{
   margin-top:12px;
   display:none;
 }
+  /* Minimized state */
+.delivery-box.minimized{
+  height: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+/* Hide content when minimized */
+.delivery-box.minimized .road,
+.delivery-box.minimized .progress,
+.delivery-box.minimized .time,
+.delivery-box.minimized #doneMsg{
+  display: none;
+}
 </style>
 </head>
 
 <body>
 
 <div class="delivery-box" id="deliveryBox">
-
-  <button class="delivery-close" onclick="closeDelivery()">✖</button>
-
+<button class="delivery-close" onclick="toggleDelivery()">✖</button>
+  
   <h3>📦 Order Confirmed!</h3>
   Delivery Partner is on the way
 
@@ -150,10 +164,10 @@ const timer = setInterval(function(){
 
 },1000);
 
-function closeDelivery(){
-  document.getElementById("deliveryBox").style.display = "none";
+function toggleDelivery(){
+  let box = document.getElementById("deliveryBox");
+  box.classList.toggle("minimized");
 }
-
 function showDelivery(){
   document.getElementById("deliveryBox").style.display = "block";
 }
@@ -161,3 +175,4 @@ function showDelivery(){
 
 </body>
 </html>
+
