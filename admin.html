@@ -145,6 +145,8 @@ body{
     <button onclick="showSection('manage')">Manage Food</button>
     <button onclick="showSection('orders')">Orders</button>
     <button onclick="showSection('sales')">Total Sales</button>
+    <h2>⭐ Customer Reviews</h2>
+<div id="reviewsList"></div>
   </div>
 
   <!-- MANAGE FOOD -->
@@ -380,10 +382,42 @@ function markUserRead(index){
 function goBack(){
     window.history.back();
 }
+function loadReviews(){
+  let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+  let box = document.getElementById("reviewsList");
 
+  if(reviews.length === 0){
+    box.innerHTML = "<p>No reviews yet 😔</p>";
+    return;
+  }
+
+  let html = "";
+
+  reviews.forEach(r => {
+    html += `
+      <div style="
+        border:1px solid #ddd;
+        padding:12px;
+        border-radius:10px;
+        margin-bottom:12px;
+        background:#fff0f5;
+      ">
+        <strong>👤 ${r.user}</strong><br>
+        ⭐ ${"★".repeat(r.rating)}<br>
+        💬 ${r.comment}<br>
+        <small>${r.time}</small>
+      </div>
+    `;
+  });
+
+  box.innerHTML = html;
+}
+
+loadReviews();
 </script>
 
 </body>
 </html>
+
 
 
