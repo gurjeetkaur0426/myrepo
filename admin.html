@@ -200,12 +200,11 @@ function login(){
   if(aidInput.value === ADMIN_ID && passInput.value === ADMIN_PASS){
     document.getElementById("loginBox").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
+
     showSection('manage');
     showFoods();
     showOrders();
-    showSales();
-    showUsers();
-    setTodayDate();
+    setTodayDate(); // this is safe
   } else {
     alert("Wrong login");
   }
@@ -386,4 +385,5 @@ function goBack(){
 
 </body>
 </html>
+
 
