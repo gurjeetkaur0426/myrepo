@@ -76,9 +76,7 @@ button{
   border-radius:6px;
 }
 
-.order{
-  border-bottom:1px solid #ddd;
-  padding:12px 0;
+
 }
 .order{
   display:grid;
@@ -145,9 +143,14 @@ body{
     <button onclick="showSection('manage')">Manage Food</button>
     <button onclick="showSection('orders')">Orders</button>
     <button onclick="showSection('sales')">Total Sales</button>
-    <h2>⭐ Customer Reviews</h2>
-<div id="reviewsList"></div>
+    <button onclick="showSection('reviews')">Reviews</button>
+    
+</div>
   </div>
+  <div class="section" id="reviews">
+  <h3>⭐ Customer Reviews</h3>
+  <div id="reviewsList"></div>
+</div>
 
   <!-- MANAGE FOOD -->
   <div class="section" id="manage">
@@ -206,6 +209,7 @@ function login(){
     showSection('manage');
     showFoods();
     showOrders();
+    loadReviews();
     setTodayDate(); // this is safe
   } else {
     alert("Wrong login");
@@ -413,11 +417,12 @@ function loadReviews(){
   box.innerHTML = html;
 }
 
-loadReviews();
+
 </script>
 
 </body>
 </html>
+
 
 
 
