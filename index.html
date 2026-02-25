@@ -1191,26 +1191,6 @@ h2::after {
                         </div>
                     </div>
 
-                    <!-- Toggle Button -->
-                    <div class="project-card">
-                        <div class="project-preview">
-                            <div class="toggle-preview">
-                                <div class="toggle-switch">
-                                    <input type="checkbox" id="toggle-demo" class="toggle-checkbox">
-                                    <label for="toggle-demo" class="toggle-label">
-                                        <span>OFF</span>
-                                        <span>ON</span>
-                                    </label>
-                                </div>
-                                <p id="toggle-status">Status: Off</p>
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <h4>Toggle Button</h4>
-                            <p>An interactive toggle switch with dynamic status updates and smooth animations.</p>
-                            <button class="btn btn-primary" onclick="openProject('toggle')">Try Now</button>
-                        </div>
-                    </div>
 
                     <!-- Tic Tac Toe -->
                     <div class="project-card">
@@ -1229,6 +1209,7 @@ h2::after {
                             <p>A classic Tic Tac Toe game with player turn management and win detection.</p>
                             <button class="btn btn-primary" onclick="openProject('tictactoe')">Try Now</button>
                         </div>
+                    </div>
                     </div>
 
          
@@ -1252,10 +1233,10 @@ h2::after {
                         <label for="email">Your Email</label>
                         <input type="email" id="email" name="email" required placeholder="Enter your email">
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label for="subject">Subject</label>
                         <input type="text" id="subject" name="subject" required placeholder="Enter subject">
-                    </div> -->
+                    </div>
                     <div class="form-group">
                         <label for="message">Message</label>
                         <textarea id="message" name="message" required rows="5" placeholder="Enter your message"></textarea>
@@ -1486,31 +1467,7 @@ function clearCalc() {
 }
 
 // Toggle Button Demo
-function showToggle() {
-    modalBody.innerHTML = `
-        <div class="project-content">
-            <h2>Toggle Button</h2>
-            <p>An interactive toggle switch with dynamic status updates. Click the switch to turn it on and off.</p>
-            <div class="toggle-demo-section">
-                <div class="toggle-large">
-                    <input type="checkbox" id="toggle-large-demo" class="toggle-large-checkbox">
-                    <label for="toggle-large-demo" class="toggle-large-label">
-                        <span>OFF</span>
-                        <span>ON</span>
-                    </label>
-                </div>
-                <div class="toggle-status-text" id="toggle-large-status">Status: OFF</div>
-            </div>
-        </div>
-    `;
-    
-    const toggleLargeDemo = document.getElementById('toggle-large-demo');
-    const toggleLargeStatus = document.getElementById('toggle-large-status');
-    
-    toggleLargeDemo.addEventListener('change', () => {
-        toggleLargeStatus.textContent = toggleLargeDemo.checked ? 'Status: ON' : 'Status: OFF';
-    });
-}
+
 
 // Tic Tac Toe Game
 function showTicTacToe() {
@@ -1705,5 +1662,4 @@ window.addEventListener('load', () => {
 </body>
 
 </html>
-
 
