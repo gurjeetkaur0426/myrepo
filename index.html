@@ -1322,10 +1322,12 @@ hamburger.addEventListener('click', () => {
     navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
 });
 
-// Close menu when link is clicked
+// Close menu only on mobile
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-        navMenu.style.display = 'none';
+        if (window.innerWidth <= 768) {
+            navMenu.style.display = 'none';
+        }
     });
 });
 
@@ -1703,3 +1705,4 @@ window.addEventListener('load', () => {
 </body>
 
 </html>
+
